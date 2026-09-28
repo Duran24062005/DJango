@@ -53,6 +53,8 @@ Configura también `DJANGO_SECRET_KEY` en Vercel con una clave larga y aleatoria
 
 Después de guardar la variable, crea un nuevo deployment. Si `DJANGO_SECRET_KEY` falta o está vacía en producción, Django detendrá el arranque con un mensaje explícito en lugar de ejecutar con una configuración insegura.
 
+El despliegue incluye WhiteNoise y ejecuta `collectstatic` durante el build de Vercel. Esto publica `static/css/site.css` desde `STATIC_ROOT`; si el navegador recibe HTML en esa URL, significa que el deployment aún usa una versión anterior o que el build no se volvió a ejecutar.
+
 ## API
 
 La API está separada de la web y usa JSON:
