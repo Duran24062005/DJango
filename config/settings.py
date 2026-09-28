@@ -2,11 +2,17 @@ import os
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-wiki-dev-only")
 DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() == "true"
+if not SECRET_KEY.strip():
+    if DEBUG:
+        SECRET_KEY = "django-wiki-dev-only"
+    else:
+        raise ImproperlyConfigured("DJANGO_SECRET_KEY debe estar configurada en producción.")
 def _csv_env(name, default=""):
     return [value.strip() for value in os.getenv(name, default).split(",") if value.strip()]
 

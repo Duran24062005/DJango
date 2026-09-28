@@ -45,6 +45,14 @@ No subas `.env` al repositorio. `.env.example` contiene nombres y valores fictic
 
 En los entornos de Vercel configura `DJANGO_ALLOWED_HOSTS` con el dominio público de producción, por ejemplo `django-wiki-eight.vercel.app`. Vercel también expone `VERCEL_URL` y `VERCEL_PROJECT_PRODUCTION_URL`; Django los añade automáticamente a `ALLOWED_HOSTS` cuando están disponibles. Las peticiones HTTPS de esos dominios también quedan autorizadas para CSRF mediante `CSRF_TRUSTED_ORIGINS`.
 
+Configura también `DJANGO_SECRET_KEY` en Vercel con una clave larga y aleatoria. No la dejes vacía ni uses `change-me-in-development` en producción. Puedes generar una con:
+
+```bash
+.venv/bin/python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+Después de guardar la variable, crea un nuevo deployment. Si `DJANGO_SECRET_KEY` falta o está vacía en producción, Django detendrá el arranque con un mensaje explícito en lugar de ejecutar con una configuración insegura.
+
 ## API
 
 La API está separada de la web y usa JSON:
