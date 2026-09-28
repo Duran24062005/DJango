@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.utils.text import slugify
 from learning.models import Category, Note, Tag
 
 NOTES = [
@@ -17,7 +18,17 @@ class Command(BaseCommand):
         for key, (name, description) in categories.items(): Category.objects.update_or_create(slug=key, defaults={"name": name, "description": description})
         for order, title, summary, content, category, difficulty, tag_names in NOTES:
             tags = [Tag.objects.get_or_create(slug=t, defaults={"name": t.replace("-", " ").title()})[0] for t in tag_names]
-            note, _ = Note.objects.update_or_create(slug=title.lower().replace(" ", "-").replace(":", ""), defaults={"title": title, "summary": summary, "content": content, "category": Category.objects.get(slug=category), "difficulty": difficulty, "learning_order": order, "status": Note.Status.PUBLISHED})
+            note, _ = Note.objects.update_or_create(
+                title=title,
+                defaults={
+                    "slug": slugify(title),
+                    "summary": summary,
+                    "content": content,
+                    "category": Category.objects.get(slug=category),
+                    "difficulty": difficulty,
+                    "learning_order": order,
+                    "status": Note.Status.PUBLISHED,
+                },
+            )
             note.tags.set(tags)
         self.stdout.write(self.style.SUCCESS(f"{len(NOTES)} apuntes iniciales cargados."))
-

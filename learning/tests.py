@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.core.management import call_command
 from .models import Category, Note, Tag
 
 class NoteModelTests(TestCase):
@@ -19,3 +20,11 @@ class WebTests(TestCase):
     def test_detail_renders_markdown(self): self.assertContains(self.client.get(self.note.get_absolute_url()), "Hola")
     def test_create_requires_login(self): self.assertEqual(self.client.get(reverse("note-create")).status_code, 302)
 
+class SeedLearningTests(TestCase):
+    def test_seed_creates_url_safe_slugs_and_is_idempotent(self):
+        call_command("seed_learning")
+        self.assertEqual(Note.objects.count(), 6)
+        self.assertTrue(all(note.slug.isascii() for note in Note.objects.all()))
+        self.assertEqual(self.client.get(reverse("home")).status_code, 200)
+        call_command("seed_learning", verbosity=0)
+        self.assertEqual(Note.objects.count(), 6)
