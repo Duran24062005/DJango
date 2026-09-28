@@ -1,5 +1,7 @@
 # Ruta de aprendizaje
 
+Consulta [`official-references.md`](official-references.md) después de cada etapa. Los enlaces apuntan a la documentación oficial de Django y sirven para pasar de un ejemplo pequeño a una comprensión más completa.
+
 Recorre los apuntes en orden. No intentes memorizar todo en una lectura: lee, ejecuta un cambio pequeño, rompe algo de forma controlada y escribe qué observaste. Cada etapa debe terminar con una evidencia en el código o en una prueba.
 
 ## 01 — Instalar y leer el proyecto

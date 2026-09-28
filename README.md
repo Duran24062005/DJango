@@ -71,7 +71,7 @@ Ejemplo: `curl http://127.0.0.1:8000/api/notes/?search=modelos`.
 
 ## Ruta de aprendizaje
 
-Lee [`docs/learning-path.md`](docs/learning-path.md) en orden. Cada apunte cargado por `seed_learning` conecta una idea con el código que la implementa. El [`PRD`](docs/PRD.md) explica las decisiones del proyecto y sus límites.
+Lee [`docs/learning-path.md`](docs/learning-path.md) en orden. Cada apunte cargado por `seed_learning` conecta una idea con el código que la implementa. El [`PRD`](docs/PRD.md) explica las decisiones del proyecto y sus límites. Para profundizar, consulta [`docs/official-references.md`](docs/official-references.md), que reúne enlaces a la documentación oficial de Django y Django REST Framework.
 
 ## Comandos útiles
 
@@ -96,3 +96,7 @@ Si ya tienes otro PostgreSQL ocupando el puerto 5432, puedes ejecutar la suite a
 ## Decisiones didácticas
 
 La primera versión prefiere explícitamente código fácil de seguir sobre abstracciones prematuras. Templates y API tienen sus propios módulos para poder estudiar cada estilo sin saltar entre capas. PostgreSQL se utiliza desde el comienzo para que los modelos y migraciones se aprendan en un contexto real.
+
+
+- [Oficial Documentation](https://www.djangoproject.com/)
+- [Mozilla MDN](https://developer.mozilla.org/es/docs/Learn_web_development/Extensions/Server-side/Django)
