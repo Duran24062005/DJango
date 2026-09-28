@@ -41,6 +41,10 @@ Cuando existe `DATABASE_URL`, Django la utiliza con SSL obligatorio y mantiene l
 
 No subas `.env` al repositorio. `.env.example` contiene nombres y valores ficticios para que cada entorno pueda reconstruir la configuración sin exponer credenciales.
 
+### Despliegue en Vercel
+
+En los entornos de Vercel configura `DJANGO_ALLOWED_HOSTS` con el dominio público de producción, por ejemplo `django-wiki-eight.vercel.app`. Vercel también expone `VERCEL_URL` y `VERCEL_PROJECT_PRODUCTION_URL`; Django los añade automáticamente a `ALLOWED_HOSTS` cuando están disponibles. Las peticiones HTTPS de esos dominios también quedan autorizadas para CSRF mediante `CSRF_TRUSTED_ORIGINS`.
+
 ## API
 
 La API está separada de la web y usa JSON:
