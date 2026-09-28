@@ -19,7 +19,8 @@ python -m venv .venv
 source .venv/bin/activate       # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 cp .env.example .env
-docker compose up -d db
+# Si usas una base administrada, completa DATABASE_URL en .env y omite Docker.
+docker compose up -d db       # solo para PostgreSQL local
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py seed_learning
@@ -27,6 +28,18 @@ python manage.py runserver
 ```
 
 Abre `http://127.0.0.1:8000/`. El usuario propietario puede entrar en `/login/`, crear apuntes desde `Nuevo apunte` y administrarlos también desde `/admin/`.
+
+### Configuración de la base de datos
+
+La aplicación carga `.env` automáticamente. La prioridad de configuración es:
+
+1. `DATABASE_URL`, recomendada para una base administrada.
+2. `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`.
+3. Valores locales predeterminados (`django_wiki` en `localhost:5432`).
+
+Cuando existe `DATABASE_URL`, Django la utiliza con SSL obligatorio y mantiene las conexiones durante 10 minutos. `DATABASE_URL_UNPOOLED` se documenta para proveedores que separan conexiones de aplicación y migraciones, pero no reemplaza automáticamente a `DATABASE_URL`.
+
+No subas `.env` al repositorio. `.env.example` contiene nombres y valores ficticios para que cada entorno pueda reconstruir la configuración sin exponer credenciales.
 
 ## API
 

@@ -21,9 +21,8 @@ Un apunte tiene título, slug, resumen, Markdown original, HTML sanitizado, esta
 - El Markdown se transforma y limpia con una lista explícita de etiquetas y protocolos seguros.
 - Los slugs, categorías y etiquetas son únicos.
 - Las categorías usadas por apuntes no se eliminan accidentalmente (`PROTECT`).
-- PostgreSQL se levanta con Docker Compose y las credenciales viven en `.env`, nunca en Git.
+- PostgreSQL local puede levantarse con Docker Compose, pero una base administrada puede configurarse mediante `DATABASE_URL`. Esta URL tiene prioridad sobre las variables `POSTGRES_*` individuales; las credenciales viven en `.env`, nunca en Git.
 
 ## Evolución posible
 
 Multiusuario, historial de versiones, progreso por lección, tests interactivos, búsqueda full-text de PostgreSQL y despliegue con variables secretas gestionadas.
-
