@@ -1,7 +1,10 @@
 import os
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-wiki-dev-only")
 DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() == "true"
 ALLOWED_HOSTS = [host.strip() for host in os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")]
@@ -30,12 +33,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 if os.getenv("DJANGO_TESTING") == "true":
     DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
 else:
-    DATABASES = {"default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "django_wiki"), "USER": os.getenv("POSTGRES_USER", "django_wiki"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "django_wiki"), "HOST": os.getenv("POSTGRES_HOST", "localhost"),
-        "PORT": os.getenv("POSTGRES_PORT", "5432"),
-    }}
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        DATABASES = {"default": dj_database_url.parse(database_url, conn_max_age=600, ssl_require=True)}
+    else:
+        DATABASES = {"default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB", "django_wiki"), "USER": os.getenv("POSTGRES_USER", "django_wiki"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD", "django_wiki"), "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+            "PORT": os.getenv("POSTGRES_PORT", "5432"),
+        }}
 AUTH_PASSWORD_VALIDATORS = []
 LANGUAGE_CODE = "es-co"
 TIME_ZONE = "America/Bogota"
